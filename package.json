@@ -1,0 +1,60 @@
+{
+  "name": "green-lens",
+  "displayName": "Green Pattern Insight",
+  "description": "HTML \uC804\uC1A1 \uC18C\uAC1C \uC791\uC131 \uC8FC\uC8FC \uB9AC\uC2A4 \uC791 \uC218 \uC788\uC2B5 \uB9AC\uC2A4\uB97C \uC0C1 \uC138\uC694\uD574 \uC8FC\uC138\uC694.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.90.1"
+  },
+  "categories": [
+    "Linters",
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:html"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "greenPattern.showScriptOptimizationInfo",
+        "title": "\uC18C\uAC1C \uC791\uC131 \uC791 \uC218 \uC788\uC2B5 \uB9AC\uC2A4 \uBCF4 \uC218 \uC788"
+      }
+    ],
+    "languages": [
+      {
+        "id": "html",
+        "aliases": [
+          "HTML"
+        ],
+        "extensions": [
+          ".html",
+          ".htm"
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "build": "tsc",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.97.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@vscode/test-cli": "^0.0.8",
+    "@vscode/test-electron": "^2.3.9",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "node-html-parser": "^7.0.1"
+  }
+}
