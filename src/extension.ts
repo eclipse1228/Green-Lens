@@ -17,14 +17,14 @@ export function activate(context: vscode.ExtensionContext) {
     
     context.subscriptions.push(diagnostics);
 
-    // 스크립트 최적화 정보 표시 명령어 등록
+    // Pattern 1: 스크립트 최적화 정보 표시 명령어 등록
     context.subscriptions.push(
         vscode.commands.registerCommand('greenPattern.showScriptOptimizationInfo', () => {
             vscode.window.showInformationMessage(
                 '스크립트 최적화 방법:\n' +
-                '1. defer: 문서 파싱 완료 후 실행\n' +
-                '2. async: 다운로드 완료 즉시 실행\n' +
-                '3. body 끝부분으로 이동: 렌더링 차단 방지',
+                '1. defer 속성 사용\n' +
+                '2. async 속성 사용\n' +
+                '3. body 태그 끝에 배치',
                 '자세히 알아보기'
             ).then(selection => {
                 if (selection === '자세히 알아보기') {
@@ -33,6 +33,71 @@ export function activate(context: vscode.ExtensionContext) {
                     ));
                 }
             });
+        })
+    );
+
+    // defer 속성 추가 명령어
+    context.subscriptions.push(
+        vscode.commands.registerCommand('greenPattern.addDeferAttribute', async (uri: vscode.Uri, range: vscode.Range, scriptText: string) => {
+            const edit = new vscode.WorkspaceEdit();
+            const newScriptTag = scriptText.replace('<script', '<script defer');
+            edit.replace(uri, range, newScriptTag);
+            await vscode.workspace.applyEdit(edit);
+        })
+    );
+
+    // async 속성 추가 명령어
+    context.subscriptions.push(
+        vscode.commands.registerCommand('greenPattern.addAsyncAttribute', async (uri: vscode.Uri, range: vscode.Range, scriptText: string) => {
+            const edit = new vscode.WorkspaceEdit();
+            const newScriptTag = scriptText.replace('<script', '<script async');
+            edit.replace(uri, range, newScriptTag);
+            await vscode.workspace.applyEdit(edit);
+        })
+    );
+
+    // Pattern 2: div 태그 분석 정보 표시 명령어 등록
+    context.subscriptions.push(
+        vscode.commands.registerCommand('greenPattern.showDivAnalysis', () => {
+            vscode.window.showInformationMessage(
+                'DOM 최적화 방법:\n' +
+                '1. 불필요한 div 제거\n' +
+                '2. CSS Grid/Flexbox 사용\n' +
+                '3. 시맨틱 태그 활용 (section, article, nav 등)',
+                '자세히 알아보기'
+            ).then(selection => {
+                if (selection === '자세히 알아보기') {
+                    vscode.env.openExternal(vscode.Uri.parse(
+                        'https://web.dev/dom-size/'
+                    ));
+                }
+            });
+        })
+    );
+
+    // Grid 레이아웃으로 변환
+    context.subscriptions.push(
+        vscode.commands.registerCommand('greenPattern.convertToGrid', async (uri: vscode.Uri, position: vscode.Range) => {
+            const edit = new vscode.WorkspaceEdit();
+            edit.insert(
+                uri,
+                new vscode.Position(0, 0),
+                `<style>\n.grid-container {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\n  gap: 1rem;\n}\n</style>\n`
+            );
+            await vscode.workspace.applyEdit(edit);
+        })
+    );
+
+    // Flexbox 레이아웃으로 변환
+    context.subscriptions.push(
+        vscode.commands.registerCommand('greenPattern.convertToFlex', async (uri: vscode.Uri, position: vscode.Range) => {
+            const edit = new vscode.WorkspaceEdit();
+            edit.insert(
+                uri,
+                new vscode.Position(0, 0),
+                `<style>\n.flex-container {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 1rem;\n}\n</style>\n`
+            );
+            await vscode.workspace.applyEdit(edit);
         })
     );
 

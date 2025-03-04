@@ -1,11 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Green Pattern Test</title>
+    <title>Div Nesting Test</title>
     <script src="app.js"></script>
     <script src="lib.js" defer></script>
 </head>
 <body>
-    <h1>테스트 페이지</h1>
+    <div class="container">
+        <div>
+            <div>
+                <div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="article">
+                <div class="content">
+                    <div class="item">
+                        <div class="detail">
+                            Deeply nested content
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="another-container">
+        <div class="content">
+            Another content
+        </div>
+    </div>
 </body>
 </html>
